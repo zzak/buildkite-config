@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative "buildkite_config"
+require "buildkite_config"
 
 diff = Buildkite::Config::Diff.new("pipeline-generate").compare
 
