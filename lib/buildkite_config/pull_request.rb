@@ -21,7 +21,11 @@ module Buildkite::Config
 
     private
       def fetch_pr
-        @github.pull_request("zzak/buildkite-config", pr_number)
+        @github.pull_request(github_pull_request_repo, pr_number)
+      end
+
+      def github_pull_request_repo
+        ENV.fetch("BUILDKITE_PULL_REQUEST_REPO") { raise "Not a PR." }
       end
 
       def github_token
