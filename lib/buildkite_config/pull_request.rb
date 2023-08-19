@@ -21,12 +21,13 @@ module Buildkite::Config
 
     private
       def fetch_pr
-        puts github_pull_request_repo
         @github.pull_request(github_pull_request_repo, pr_number)
       end
 
       def github_pull_request_repo
-        ENV.fetch("BUILDKITE_PULL_REQUEST_REPO") { raise "Not a PR." }
+        @repo ||= Octokit::Repository.from_url(
+          ENV.fetch("BUILDKITE_PULL_REQUEST_REPO") { raise "Not a PR." })
+        @repo.slug.gsub(/\.git$/, '')
       end
 
       def github_token
