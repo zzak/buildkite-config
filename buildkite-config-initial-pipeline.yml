@@ -16,7 +16,7 @@ steps:
   - command: |
       git config --global --add safe.directory /workdir
       bundle install
-      bin/diff.rb
+      bundle exec bin/diff.rb
     plugins:
       - docker#v5.8.0:
           image: "ruby:latest"
