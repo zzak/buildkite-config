@@ -21,6 +21,7 @@ module Buildkite::Config
 
     private
       def fetch_pr
+        puts github_pull_request_repo
         @github.pull_request(github_pull_request_repo, pr_number)
       end
 
