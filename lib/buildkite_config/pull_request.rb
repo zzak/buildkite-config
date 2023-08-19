@@ -35,7 +35,7 @@ module Buildkite::Config
       def updated_body
         PLAN_FORM.match?(body) ?
           @pull_request.body.gsub!(PLAN_FORM, plan) :
-          @pull_request.body += plan
+          @pull_request.body.nil? ? "" << plan : @pull_request.body << plan
       end
 
       def plan
