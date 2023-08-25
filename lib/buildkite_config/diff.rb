@@ -10,8 +10,8 @@ module Buildkite::Config
 
     def self.generated_pipeline(repo)
       Dir.mktmpdir do |dir|
-        IO.popen "ruby #{repo}/pipeline-generate tmp/rails > #{dir}/pipeline"
-        File.read("#{dir}/pipeline")
+        io = IO.popen "ruby #{repo}/pipeline-generate tmp/rails"
+        io.read
       end
     end
   end
