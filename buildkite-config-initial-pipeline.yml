@@ -17,7 +17,7 @@ steps:
       git config --global --add safe.directory /workdir
       bundle install
       bundle exec rake test
-    key: test
+    key: self-test
     plugins:
       - docker#v5.8.0:
           image: "ruby:latest"
@@ -27,7 +27,7 @@ steps:
       bundle install
       bundle exec rake diff
     key: diff
-    depends_on: test
+    depends_on: self-test
     plugins:
       - docker#v5.8.0:
           image: "ruby:latest"
