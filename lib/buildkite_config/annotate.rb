@@ -5,9 +5,13 @@ module Buildkite::Config
     end
 
     def perform
-      IO.popen("buildkite-agent annotate '#{plan}'")
-    rescue => e
-      raise e
+      io = IO.popen("buildkite-agent annotate '#{plan}'")
+      output = io.read
+      io.close
+
+      raise output unless $?.success?
+
+      output
     end
 
     private
