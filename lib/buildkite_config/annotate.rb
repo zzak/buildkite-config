@@ -23,7 +23,7 @@ module Buildkite::Config
           <summary>Show Output</summary>
 
           ```diff
-          #{@diff.to_s(:color)}
+          #{@diff.to_s}
           ```
 
           </details>
