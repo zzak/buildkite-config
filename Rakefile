@@ -10,10 +10,8 @@ task :diff => [:buildkite_config, :rails] do
   diff = Buildkite::Config::Diff.compare
   puts diff.to_s(:color)
 
-  pr = Buildkite::Config::PullRequest.new diff.to_s(:text)
-  pr.update
-
-  puts pr.body
+  annotate = Buildkite::Config::Annotate.new(diff)
+  annotate.perform
 end
 
 task :buildkite_config do
