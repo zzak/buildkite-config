@@ -5,7 +5,8 @@ module Buildkite::Config
     end
 
     def perform
-      IO.popen("buildkite-agent annotate '#{plan}'")
+      `buildkite-agent annotate '#{plan}'`
+      #IO.popen("buildkite-agent annotate '#{plan}'")
     end
 
     private
