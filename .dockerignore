@@ -5,3 +5,4 @@ doc
 node_modules
 pkg
 tmp
+!/tmp/rails

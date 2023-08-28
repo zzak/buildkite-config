@@ -1,6 +1,9 @@
 ARG RUBY_IMAGE
 FROM ${RUBY_IMAGE:-ruby:latest}
 
+ARG BUILDKITE_CONFIG_CONFIG_PATH=.buildkite
+ARG BUILDKITE_CONFIG_RAILS_PATH=.
+
 ARG BUNDLER
 ARG RUBYGEMS
 RUN echo "--- :ruby: Updating RubyGems and Bundler" \
@@ -98,16 +101,16 @@ WORKDIR /rails
 ENV RAILS_ENV=test RACK_ENV=test
 ENV JRUBY_OPTS="--dev -J-Xmx1024M"
 
-ADD .buildkite/runner /usr/local/bin/
+ADD ${BUILDKITE_CONFIG_CONFIG_PATH}/runner /usr/local/bin/
 RUN chmod +x /usr/local/bin/runner
 
 # Wildcard ignores missing files; .empty ensures ADD always has at least
 # one valid source: https://stackoverflow.com/a/46801962
-ADD .buildkite/.empty actioncable/package.jso[n] actioncable/
-ADD .buildkite/.empty actiontext/package.jso[n] actiontext/
-ADD .buildkite/.empty actionview/package.jso[n] actionview/
-ADD .buildkite/.empty activestorage/package.jso[n] activestorage/
-ADD .buildkite/.empty package.jso[n] yarn.loc[k] .yarnr[c] ./
+ADD ${BUILDKITE_CONFIG_CONFIG_PATH}/.empty ${BUILDKITE_CONFIG_RAILS_PATH}/actioncable/package.jso[n] actioncable/
+ADD ${BUILDKITE_CONFIG_CONFIG_PATH}/.empty ${BUILDKITE_CONFIG_RAILS_PATH}/actiontext/package.jso[n] actiontext/
+ADD ${BUILDKITE_CONFIG_CONFIG_PATH}/.empty ${BUILDKITE_CONFIG_RAILS_PATH}/actionview/package.jso[n] actionview/
+ADD ${BUILDKITE_CONFIG_CONFIG_PATH}/.empty ${BUILDKITE_CONFIG_RAILS_PATH}/activestorage/package.jso[n] activestorage/
+ADD ${BUILDKITE_CONFIG_CONFIG_PATH}/.empty ${BUILDKITE_CONFIG_RAILS_PATH}/package.jso[n] ${BUILDKITE_CONFIG_RAILS_PATH}/yarn.loc[k] ${BUILDKITE_CONFIG_RAILS_PATH}/.yarnr[c] ./
 
 RUN rm -f .empty */.empty \
     && find . -maxdepth 1 -type d -empty -exec rmdir '{}' '+' \
@@ -120,9 +123,9 @@ RUN rm -f .empty */.empty \
         && (cd actionview && npm install); \
     fi
 
-ADD */*.gemspec tmp/
-ADD .buildkite/.empty railties/exe/* railties/exe/
-ADD Gemfile Gemfile.lock RAILS_VERSION rails.gemspec ./
+ADD ${BUILDKITE_CONFIG_RAILS_PATH}/**/*.gemspec tmp/
+ADD ${BUILDKITE_CONFIG_CONFIG_PATH}/.empty ${BUILDKITE_CONFIG_RAILS_PATH}/railties/exe/* railties/exe/
+ADD ${BUILDKITE_CONFIG_RAILS_PATH}/Gemfile ${BUILDKITE_CONFIG_RAILS_PATH}/Gemfile.lock ${BUILDKITE_CONFIG_RAILS_PATH}/RAILS_VERSION ${BUILDKITE_CONFIG_RAILS_PATH}/rails.gemspec ./
 
 RUN rm -f railties/exe/.empty \
     && find railties/exe -maxdepth 0 -type d -empty -exec rmdir '{}' '+' \
@@ -132,7 +135,7 @@ RUN rm -f railties/exe/.empty \
     && rm -rf /usr/local/bundle/cache \
     && echo "--- :floppy_disk: Copying repository contents"
 
-ADD . ./
+ADD ${BUILDKITE_CONFIG_RAILS_PATH}/. ./
 
 RUN mv -f tmp/Gemfile.lock.updated Gemfile.lock \
     && if [ -f package.json ]; then \
