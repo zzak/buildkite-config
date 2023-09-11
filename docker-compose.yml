@@ -11,7 +11,7 @@ services:
         - RUBYGEMS
 
   default: &default
-    image: "${IMAGE_NAME-buildkite_base}"
+    image: "${IMAGE_NAME-buildkite-config-base}"
     environment: &default_env
       CI:
       BUILDKITE:
@@ -41,6 +41,8 @@ services:
       - ../test-reports:/rails/test-reports
 
     depends_on:
+      base:
+        condition: service_completed_successfully
       redis:
         condition: service_healthy
       memcached:
