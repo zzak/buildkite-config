@@ -230,7 +230,7 @@ def steps_for(subdirectory, rake_task, service: "default", pre_steps: [], &block
 end
 
 
-5.times do
+25.times do
   steps_for("activerecord", "sqlite3:test", service: "default")
 end
 
