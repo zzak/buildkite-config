@@ -229,13 +229,9 @@ def steps_for(subdirectory, rake_task, service: "default", pre_steps: [], &block
   end
 end
 
-# GROUP 1: Runs additional isolated tests for non-PR builds
-%w(
-  activerecord    sqlite3:test        default
-).each_slice(3) do |dir, task, service|
-  next if RAILS_VERSION < Gem::Version.new("7.1.0.alpha") && task == "trilogy:test"
 
-  steps_for(dir, task, service: service)
+5.times do
+  steps_for("activerecord", "sqlite3:test", service: "default")
 end
 
 ###
