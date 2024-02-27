@@ -2,15 +2,14 @@
 # configuration in the Buildkite UI.
 
 steps:
-  - block: "Approve"
-    prompt: |
-      Only team members can approve this pipeline.
-  - name: ":pipeline: docs-preview-initial-pipeline"
+  - name: ":pipeline: rails-initial-pipeline"
     command: |
       PATH=/bin:/usr/bin
       set -e
-      echo "+++ No .buildkite/; using fallback repository"
-      rm -rf .buildkite
+      if [ -d ".buildkite" ]; then
+        echo "+++ :bk-status-failed: .buildkite/ already exists; please remove it and try again"
+        exit 1
+      else
 
       if [ -n "$$CONFIG_REPO" ]; then
         GIT_REPO="$$CONFIG_REPO"
@@ -29,26 +28,32 @@ steps:
 
       rm -rf .buildkite/.git
       sh -c "$$PIPELINE_COMMAND"
+
       ([ -f .buildkite/.dockerignore ] && cp .buildkite/.dockerignore .dockerignore) || true
     plugins:
       - artifacts#v1.2.0:
           upload: [".buildkite/**/*", ".dockerignore"]
     env:
+      BUNDLE_FROZEN: true
       PIPELINE_COMMAND: >-
         docker run --rm
         -v "$$PWD":/app:ro -w /app
         -e CI
+        -e BUILDKITE
         -e BUILDKITE_AGENT_META_DATA_QUEUE
         -e BUILDKITE_BRANCH
         -e BUILDKITE_BUILD_ID
-        -e BUILDKITE_PIPELINE_SLUG
         -e BUILDKITE_PULL_REQUEST
         -e BUILDKITE_PULL_REQUEST_BASE_BRANCH
         -e BUILDKITE_REBUILT_FROM_BUILD_ID
         -e BUILD_QUEUE
+        -e BUNDLE_FROZEN
         -e DOCKER_IMAGE
         -e RUN_QUEUE
         -e QUEUE
         ruby:latest
-        .buildkite/pipeline-generate docs-preview |
+        .buildkite/bin/pipeline-generate rails-ci |
         buildkite-agent pipeline upload
+    timeout_in_minutes: 5
+    agents:
+      queue: "${QUEUE-builder}"

@@ -13,7 +13,7 @@ module Buildkite::Config
     def self.generated_pipeline(repo)
       File.symlink(repo, "tmp/rails/.buildkite")
 
-      command = ["ruby", ".buildkite/pipeline-generate"]
+      command = ["ruby", ".buildkite/bin/pipeline-generate"]
 
       pipeline = "rails-ci"
       command.push(pipeline)
