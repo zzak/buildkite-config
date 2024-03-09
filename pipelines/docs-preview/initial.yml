@@ -26,8 +26,16 @@ steps:
 
       ([ -f .buildkite/.dockerignore ] && cp .buildkite/.dockerignore .dockerignore) || true
     plugins:
-      - artifacts#v1.2.0:
-          upload: [".buildkite/**/*"]
+      - artifacts#v1.9.3:
+          upload: ".dockerignore"
+      - artifacts#v1.9.3:
+          upload:
+            - .buildkite/docker-compose.yml
+            - .buildkite/Dockerfile
+            - .buildkite/Dockerfile.beanstalkd
+            - .buildkite/mysql-initdb.d
+            - .buildkite/runner
+          compressed: ".buildkite.tgz"
     env:
       PIPELINE_COMMAND: >-
         docker run --rm
