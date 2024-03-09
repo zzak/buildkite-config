@@ -13,9 +13,14 @@ module Buildkite::Config
         command do
           label ":docker: #{build_context.ruby.prefix}#{build_context.ruby.version}"
           key "docker-image-#{build_context.ruby.image_key}"
-          plugin :artifacts, {
-            download: %w[.dockerignore .buildkite/* .buildkite/**/*]
-          }
+
+          command do
+            plugin :artifacts, {
+              download: %w[.dockerignore .buildkite.tar.gz]
+            }
+
+            run "tar -xzf .buildkite.tar.gz"
+          end
 
           plugin :docker_compose, {
             build: "base",

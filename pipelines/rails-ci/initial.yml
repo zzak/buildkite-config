@@ -28,11 +28,18 @@ steps:
       rm -rf .buildkite/.git
       sh -c "$$PIPELINE_COMMAND"
 
+      tar -czf .buildkite.tar.gz \
+        docker-compose.yml \
+        Dockerfile \
+        Dockerfile.beanstalkd \
+        mysql-initdb.d \
+        runner
+
       ([ -f .buildkite/.dockerignore ] && cp .buildkite/.dockerignore .dockerignore) || true
 
     plugins:
       - artifacts#v1.2.0:
-          upload: [".buildkite/**/*", ".dockerignore"]
+          upload: [".buildkite.tar.gz", ".dockerignore"]
     env:
       BUNDLE_FROZEN: true
       PIPELINE_COMMAND: >-
