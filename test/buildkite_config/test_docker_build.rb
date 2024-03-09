@@ -25,7 +25,16 @@ class TestDockerBuild < TestCase
           "encrypted_0fb9444d0374_iv" => nil },
         "timeout_in_minutes" => 15,
         "plugins" =>
-         [{ "docker-compose#v1.0" =>
+        [{"artifacts#v1.0"=>{"download"=>".dockerignore"}},
+         {"artifacts#v1.0"=>
+           {"download"=>
+             [".buildkite/docker-compose.yml",
+              ".buildkite/Dockerfile",
+              ".buildkite/Dockerfile.beanstalkd",
+              ".buildkite/mysql-initdb.d",
+              ".buildkite/runner"],
+            "compressed"=>".buildkite.tar.gz"}},
+          { "docker-compose#v1.0" =>
             { "build" => "base",
             "config" => ".buildkite/docker-compose.yml",
             "env" => ["PRE_STEPS", "RACK"],
@@ -70,7 +79,16 @@ class TestDockerBuild < TestCase
           "encrypted_0fb9444d0374_iv" => nil },
         "timeout_in_minutes" => 15,
         "plugins" =>
-         [{ "docker-compose#v1.0" =>
+        [{"artifacts#v1.0"=>{"download"=>".dockerignore"}},
+          {"artifacts#v1.0"=>
+            {"download"=>
+              [".buildkite/docker-compose.yml",
+               ".buildkite/Dockerfile",
+               ".buildkite/Dockerfile.beanstalkd",
+               ".buildkite/mysql-initdb.d",
+               ".buildkite/runner"],
+             "compressed"=>".buildkite.tar.gz"}},
+          { "docker-compose#v1.0" =>
             { "build" => "base",
             "config" => ".buildkite/docker-compose.yml",
             "env" => ["PRE_STEPS", "RACK"],
