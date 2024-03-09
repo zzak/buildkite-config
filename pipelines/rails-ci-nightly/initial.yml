@@ -29,11 +29,11 @@ steps:
       sh -c "$$PIPELINE_COMMAND"
 
       tar -czf .buildkite.tar.gz \
-        docker-compose.yml \
-        Dockerfile \
-        Dockerfile.beanstalkd \
-        mysql-initdb.d \
-        runner
+        .buildkite/docker-compose.yml \
+        .buildkite/Dockerfile \
+        .buildkite/Dockerfile.beanstalkd \
+        .buildkite/mysql-initdb.d \
+        .buildkite/runner
 
       ([ -f .buildkite/.dockerignore ] && cp .buildkite/.dockerignore .dockerignore) || true
 
