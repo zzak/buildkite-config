@@ -6,10 +6,11 @@ steps:
     command: |
       PATH=/bin:/usr/bin
       set -e
+
       if [ -d ".buildkite" ]; then
         echo "+++ :bk-status-failed: .buildkite/ already exists; please remove it and try again"
         exit 1
-      else
+      fi
 
       if [ -n "$$CONFIG_REPO" ]; then
         GIT_REPO="$$CONFIG_REPO"
@@ -30,6 +31,7 @@ steps:
       sh -c "$$PIPELINE_COMMAND"
 
       ([ -f .buildkite/.dockerignore ] && cp .buildkite/.dockerignore .dockerignore) || true
+
     plugins:
       - artifacts#v1.2.0:
           upload: [".buildkite/**/*", ".dockerignore"]
