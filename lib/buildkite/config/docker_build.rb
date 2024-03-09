@@ -24,7 +24,7 @@ module Buildkite::Config
               .buildkite/mysql-initdb.d
               .buildkite/runner
             ],
-            compressed: ".buildkite.tar.gz"
+            compressed: ".buildkite.tgz"
           }
 
           plugin :docker_compose, {

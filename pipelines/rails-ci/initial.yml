@@ -40,7 +40,7 @@ steps:
             - .buildkite/Dockerfile.beanstalkd
             - .buildkite/mysql-initdb.d
             - .buildkite/runner
-          compressed: ".buildkite.tar.gz"
+          compressed: ".buildkite.tgz"
     env:
       BUNDLE_FROZEN: true
       PIPELINE_COMMAND: >-

@@ -33,7 +33,7 @@ class TestDockerBuild < TestCase
               ".buildkite/Dockerfile.beanstalkd",
               ".buildkite/mysql-initdb.d",
               ".buildkite/runner"],
-            "compressed" => ".buildkite.tar.gz" } },
+            "compressed" => ".buildkite.tgz" } },
           { "docker-compose#v1.0" =>
             { "build" => "base",
             "config" => ".buildkite/docker-compose.yml",
@@ -87,7 +87,7 @@ class TestDockerBuild < TestCase
                ".buildkite/Dockerfile.beanstalkd",
                ".buildkite/mysql-initdb.d",
                ".buildkite/runner"],
-             "compressed" => ".buildkite.tar.gz" } },
+             "compressed" => ".buildkite.tgz" } },
           { "docker-compose#v1.0" =>
             { "build" => "base",
             "config" => ".buildkite/docker-compose.yml",
