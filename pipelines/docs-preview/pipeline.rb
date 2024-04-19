@@ -42,6 +42,7 @@ Buildkite::Builder.pipeline do
         "BUILDKITE_BRANCH",
         "CLOUDFLARE_ACCOUNT_ID",
         "CLOUDFLARE_API_TOKEN",
+        "CLOUDFLARE_PAGES_PROJECT=zzak-rails-test",
         # Turn off annoying prompt
         # "? Would you like to help improve Wrangler by sending usage metrics to Cloudflare? › (Y/n)"
         "WRANGLER_SEND_METRICS=false"
