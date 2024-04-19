@@ -10,6 +10,8 @@ Buildkite::Builder.pipeline do
   build_context = context.extensions.find(Buildkite::Config::BuildContext)
   build_context.ruby = Buildkite::Config::RubyConfig.new(prefix: "ruby:", version: Gem::Version.new("3.3"))
 
+  env CLOUDFLARE_PAGES_PROJECT: "zzak-rails-test-two"
+
   command do
     label "build", emoji: :rails
     key "build"
@@ -41,7 +43,7 @@ Buildkite::Builder.pipeline do
       environment: [
         "BUILDKITE_BRANCH",
         "BUILDKITE_PTY=false",
-        "CLOUDFLARE_PAGES_PROJECT=zzak-rails-test-two",
+        "CLOUDFLARE_PAGES_PROJECT",
         "CLOUDFLARE_ACCOUNT_ID",
         "CLOUDFLARE_API_TOKEN",
         # Turn off annoying prompt
@@ -53,13 +55,11 @@ Buildkite::Builder.pipeline do
     plugin :artifacts, {
       download: "preview.tar.gz"
     }
-    command [
-      "tar -xzf preview.tar.gz;",
-      "echo \"[wrangler] pages deploy preview: $$CLOUDFLARE_PAGES_PROJECT\";",
-      "npm install wrangler@3;",
-      "npx wrangler@3 pages project create \"$$CLOUDFLARE_PAGES_PROJECT\" --production-branch=\"main\" || true;",
-      "npx wrangler@3 pages deploy preview --project-name=\"$$CLOUDFLARE_PAGES_PROJECT\" --branch=\"$BUILDKITE_BRANCH\";"
-    ]
+    command "tar -xzf preview.tar.gz;"
+    command "echo \"[wrangler] pages deploy preview: $$CLOUDFLARE_PAGES_PROJECT\";"
+    command "npm install wrangler@3;"
+    command "npx wrangler@3 pages project create \"$$CLOUDFLARE_PAGES_PROJECT\" --production-branch=\"main\" || true;"
+    command "npx wrangler@3 pages deploy preview --project-name=\"$$CLOUDFLARE_PAGES_PROJECT\" --branch=\"$BUILDKITE_BRANCH\";"
   end
 
   command do
