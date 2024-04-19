@@ -15,7 +15,7 @@ Buildkite::Builder.pipeline do
     key "build"
     command "bundle install && bundle exec rake preview_docs"
     plugin :docker, {
-      image: build_context.image_name_for("br-main", prefix: nil),
+      image: "ruby:3.3",
       environment: [
         "BUILDKITE_BRANCH",
         "BUILDKITE_BUILD_CREATOR",
