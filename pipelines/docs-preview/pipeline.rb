@@ -55,8 +55,7 @@ Buildkite::Builder.pipeline do
     command "tar -xzf preview.tar.gz"
     command "npm install wrangler@3"
     command "npx wrangler@3 pages project create \"zzak-rails-test\" --production-branch=\"main\""
-    command "npx wrangler@3 pages publish --project-name=\"zzak-rails-test\" --branch=\"$BUILDKITE_BRANCH\""
-    #command "npx wrangler pages deploy preview --project-name=\"zzak-rails-test\" --branch=\"$BUILDKITE_BRANCH\""
+    command "npx wrangler@3 pages deploy preview --project-name=\"zzak-rails-test\" --branch=\"$BUILDKITE_BRANCH\""
   end
 
   command do
