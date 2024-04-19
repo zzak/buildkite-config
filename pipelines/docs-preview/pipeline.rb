@@ -41,6 +41,7 @@ Buildkite::Builder.pipeline do
       environment: [
         "BUILDKITE_BRANCH",
         "BUILDKITE_PTY=false",
+        "CLOUDFLARE_PAGES_PROJECT=\"zzak-rails-test\"",
         "CLOUDFLARE_ACCOUNT_ID",
         "CLOUDFLARE_API_TOKEN",
         # Turn off annoying prompt
@@ -53,9 +54,10 @@ Buildkite::Builder.pipeline do
       download: "preview.tar.gz"
     }
     command "tar -xzf preview.tar.gz"
+    command "echo \"[wrangler] pages deploy preview: ${CLOUDFLARE_PAGES_PROJECT}\""
     command "npm install wrangler@3"
-    command "npx wrangler@3 pages project create \"zzak-rails-test\" --production-branch=\"main\""
-    command "npx wrangler@3 pages deploy preview --project-name=\"zzak-rails-test\" --branch=\"$BUILDKITE_BRANCH\""
+    command "npx wrangler@3 pages project create \"${CLOUDFLARE_PAGES_PROJECT}\" --production-branch=\"main\" || true"
+    command "npx wrangler@3 pages deploy preview --project-name=\"${CLOUDFLARE_PAGES_PROJECT}\" --branch=\"$BUILDKITE_BRANCH\""
   end
 
   command do
