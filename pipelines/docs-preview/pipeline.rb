@@ -37,11 +37,12 @@ Buildkite::Builder.pipeline do
     label "deploy", emoji: :rocket
     key "deploy"
     depends_on "build"
+    env "CLOUDFLARE_PAGES_PROJECT" => "zzak-rails-test-two"
     plugin :docker, {
       environment: [
         "BUILDKITE_BRANCH",
         "BUILDKITE_PTY=false",
-        "CLOUDFLARE_PAGES_PROJECT=\"zzak-rails-test\"",
+        "CLOUDFLARE_PAGES_PROJECT",
         "CLOUDFLARE_ACCOUNT_ID",
         "CLOUDFLARE_API_TOKEN",
         # Turn off annoying prompt
