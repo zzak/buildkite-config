@@ -58,7 +58,7 @@ Buildkite::Builder.pipeline do
       "echo \"[wrangler] pages deploy preview: $$CLOUDFLARE_PAGES_PROJECT\";",
       "npm install wrangler@3;",
       "npx wrangler@3 pages project create \"$$CLOUDFLARE_PAGES_PROJECT\" --production-branch=\"main\" || true;",
-      "npx wrangler@3 pages deploy preview --project-name=\"$$CLOUDFLARE_PAGES_PROJECT$\" --branch=\"$BUILDKITE_BRANCH\";"
+      "npx wrangler@3 pages deploy preview --project-name=\"$$CLOUDFLARE_PAGES_PROJECT\" --branch=\"$BUILDKITE_BRANCH\";"
     ]
   end
 
