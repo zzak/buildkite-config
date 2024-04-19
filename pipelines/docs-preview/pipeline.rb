@@ -42,7 +42,6 @@ Buildkite::Builder.pipeline do
         "BUILDKITE_BRANCH",
         "CLOUDFLARE_ACCOUNT_ID",
         "CLOUDFLARE_API_TOKEN",
-        "CLOUDFLARE_PAGES_PROJECT=zzak-rails-test",
         # Turn off annoying prompt
         # "? Would you like to help improve Wrangler by sending usage metrics to Cloudflare? › (Y/n)"
         "WRANGLER_SEND_METRICS=false"
@@ -53,10 +52,8 @@ Buildkite::Builder.pipeline do
       download: "preview.tar.gz"
     }
     command "tar -xzf preview.tar.gz"
-    command "echo: \"trying to deploy: $CLOUDFLARE_PAGES_PROJECT\""
     command "npm install wrangler"
-    command "npx wrangler pages project create $CLOUDFLARE_PAGES_PROJECT"
-    command "npx wrangler pages deploy preview --project-name=\"$CLOUDFLARE_PAGES_PROJECT\" --branch=\"$BUILDKITE_BRANCH\""
+    command "npx wrangler pages deploy preview --project-name=\"zzak-rails-test\" --branch=\"$BUILDKITE_BRANCH\""
   end
 
   command do
