@@ -65,7 +65,10 @@ Buildkite::Builder.pipeline do
   command do
     label "annotate", emoji: :writing_hand
     depends_on "deploy"
-    plugin :artifacts, { download: ".buildkite/docs-preview-annotate" }
+    plugin :artifacts, {
+      download: ".buildkite/bin/docs-preview-annotate",
+      compressed: ".buildkite.tgz"
+    }
     command "sh -c \"$$ANNOTATE_COMMAND\" | buildkite-agent annotate --style info"
     env "ANNOTATE_COMMAND" => <<~ANNOTATE.gsub(/[[:space:]]+/, " ").strip
       docker run --rm
@@ -74,7 +77,7 @@ Buildkite::Builder.pipeline do
       -e CLOUDFLARE_API_TOKEN
       -e CLOUDFLARE_PAGES_PROJECT
       ruby:latest
-      ruby .buildkite/docs-preview-annotate
+      ruby .buildkite/bin/docs-preview-annotate
     ANNOTATE
   end
 end
