@@ -40,6 +40,7 @@ Buildkite::Builder.pipeline do
     plugin :docker, {
       environment: [
         "BUILDKITE_BRANCH",
+        "BUILDKITE_PTY=false",
         "CLOUDFLARE_ACCOUNT_ID",
         "CLOUDFLARE_API_TOKEN",
         # Turn off annoying prompt
@@ -52,7 +53,7 @@ Buildkite::Builder.pipeline do
       download: "preview.tar.gz"
     }
     command "tar -xzf preview.tar.gz"
-    command "npx wrangler pages project create \"zzak-rails-test\""
+    #command "npx wrangler pages project create \"zzak-rails-test\""
     command "npm install wrangler"
     command "npx wrangler pages deploy preview --project-name=\"zzak-rails-test\" --branch=\"$BUILDKITE_BRANCH\""
   end
