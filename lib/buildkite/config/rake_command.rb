@@ -110,10 +110,9 @@ module Buildkite::Config
           artifact_paths build_context.artifact_paths
 
           if retry_on
-            retry_on.is_a?(Hash) ? automatic_retry_on(**retry_on) : set(:retry, retry_on)
-          else
-            automatic_retry_on(**build_context.automatic_retry_on)
+            retry_on.is_a?(Hash) ? automatic_retry_on(**retry_on) : automatic_retry_on(retry_on)
           end
+          automatic_retry_on(**build_context.automatic_retry_on)
 
           timeout_in_minutes build_context.timeout_in_minutes
 
