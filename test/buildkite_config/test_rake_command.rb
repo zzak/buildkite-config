@@ -328,7 +328,7 @@ class TestRakeCommand < TestCase
     end
 
     assert_includes pipeline.to_h["steps"][0], "retry"
-    assert_equal({ "automatic" => [{ "limit" => 1, "exit_status" => 127 }] }, pipeline.to_h["steps"][0]["retry"])
+    assert_equal({ "automatic" => [{ "limit" => 1, "exit_status" => 127 }, { "limit" => 2, "exit_status" => -1 }] }, pipeline.to_h["steps"][0]["retry"])
   end
 
   def test_soft_fail
