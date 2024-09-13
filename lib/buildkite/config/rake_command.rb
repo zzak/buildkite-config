@@ -118,7 +118,7 @@ module Buildkite::Config
           timeout_in_minutes build_context.timeout_in_minutes
 
           if soft_fail || build_context.ruby.soft_fail?
-            soft_fail true
+            soft_fail.is_a?(Hash) ? soft_fail(soft_fail) : soft_fail(true)
           end
 
           if parallelism
