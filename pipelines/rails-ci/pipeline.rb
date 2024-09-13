@@ -28,7 +28,7 @@ Buildkite::Builder.pipeline do
   build_context.rubies.each do |ruby|
     ruby_group ruby do
       # ActionCable and ActiveJob integration tests
-      rake "actioncable", task: "test:integration && echo $? && exit 3 && echo $? && exit 3", retry_on: { exit_status: -1, limit: 3 }, compose: {
+      rake "actioncable", task: "test:integration && echo $$? && exit 3 && echo $$? && exit 3", retry_on: { exit_status: -1, limit: 3 }, compose: {
         "cli_version": "2",
         "pull": "",
       }, env: {
