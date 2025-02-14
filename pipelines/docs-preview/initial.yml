@@ -4,6 +4,9 @@
 steps:
   - name: ":pipeline: docs-preview-initial-pipeline"
     command: |
+      echo "Fetching registry details"
+      export REGISTRY="$$(nsc workspace describe -o json -k registry_url)"
+
       PATH=/bin:/usr/bin
       set -e
 
@@ -66,7 +69,10 @@ steps:
         -e DOCKER_IMAGE
         -e RUN_QUEUE
         -e QUEUE
+        -e REGISTRY
         ruby:latest
         .buildkite/bin/pipeline-generate docs-preview |
         buildkite-agent pipeline upload
     timeout_in_minutes: 5
+    agents:
+      queue: "hosted"

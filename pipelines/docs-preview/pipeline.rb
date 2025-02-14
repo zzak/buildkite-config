@@ -9,6 +9,8 @@ Buildkite::Builder.pipeline do
   plugin :artifacts, "artifacts#v1.9.3"
   plugin :secrets, "cluster-secrets#v1.0.0"
 
+  agents({ queue: "hosted" })
+
   build_context = context.extensions.find(Buildkite::Config::BuildContext)
   build_context.ruby = Buildkite::Config::RubyConfig.new(prefix: "ruby:", version: Gem::Version.new("3.3"))
 
