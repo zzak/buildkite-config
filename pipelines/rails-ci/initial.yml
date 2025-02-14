@@ -1,8 +1,5 @@
 # This file is never read -- it's just a copy of the pipeline's
 # configuration in the Buildkite UI.
-env:
-  CONFIG_REPO: "https://github.com/yob/buildkite-config"
-  CONFIG_BRANCH: "hosted"
 
 steps:
   - name: ":pipeline: rails-initial-pipeline"
@@ -42,7 +39,6 @@ steps:
         -e BUILDKITE_PULL_REQUEST \
         ruby:latest \
         .buildkite/bin/fetch-pr > .buildkite/tmp/.pr-meta.json) || true
-
 
       echo "Generating pipeline:"
       sh -c "$$PIPELINE_COMMAND"
@@ -90,4 +86,4 @@ steps:
         buildkite-agent pipeline upload
     timeout_in_minutes: 5
     agents:
-      queue: hosted
+      queue: "${QUEUE-builder}"
