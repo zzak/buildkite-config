@@ -7,7 +7,7 @@ Buildkite::Builder.pipeline do
   use Buildkite::Config::RakeCommand
   use Buildkite::Config::RubyGroup
 
-  plugin :docker_compose, "docker-compose#v5.4.1"
+  plugin :docker_compose, "docker-compose#v4.16.0"
   plugin :artifacts, "artifacts#v1.9.3"
   plugin :secrets, "cluster-secrets#v1.0.0"
 
